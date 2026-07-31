@@ -568,7 +568,6 @@ void kill_all_robots(void)
 	HUD_init_message("%i robots toasted!", dead_count);
 }
 
-#ifndef RELEASE
 //	--------------------------------------------------------------------------
 //	Detonate reactor.
 //	Award player all powerups in mine.
@@ -610,6 +609,7 @@ kasf_done: ;
 	
 }
 
+#ifndef RELEASE
 void HandleTestKey(int key)
 {
 	switch (key) {

@@ -117,7 +117,10 @@ void _Assert(int expr,char *expr_text,char *filename,int linenum)
 
 }
 //#ifdef NDEBUG		//macros for debugging
-//Assert and Int3 Added by KRB because I couldn't get the macros to link 
+//Assert and Int3 Added by KRB because I couldn't get the macros to link
+//In release builds error.h defines Int3() as a no-op macro, which would
+//otherwise be expanded into the definition below.
+#undef Int3
 void Int3()
 {
 	return;
