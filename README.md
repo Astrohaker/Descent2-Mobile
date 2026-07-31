@@ -32,7 +32,20 @@ Redbook music can be used instead of MIDI music, if desired. Descent2-Mobile wil
 
 Building
 --------
-Copy the Descent II data files to `Descent2/src/main/assets`, then open the project in Android Studio. If needed, install the required build tools, SDK, and NDK. From there, simply build/run the project. The Android version only supports the OpenGL ES renderer. Tested on an NVIDIA Shield Tablet K1 running Android 6.0.1 (Marshmallow) and a Nexus 6P running Android 6.0.1.
+Copy the Descent II data files to `Descent2/src/main/assets`, then open the project in Android Studio. From there, simply build/run the project. The Android version only supports the OpenGL ES renderer. Tested on an NVIDIA Shield Tablet K1 running Android 6.0.1 (Marshmallow) and a Nexus 6P running Android 6.0.1.
+
+### Toolchain
+
+The build uses Gradle 7.2 with Android Gradle plugin 7.0.4, which **requires JDK 8-16**. Recent Android Studio releases bundle a much newer JBR; building with it fails at `settings.gradle` with `Unsupported class file major version`. Point the build at a JDK 11 instead:
+
+- Android Studio: File → Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK.
+- Command line: `JAVA_HOME=/path/to/jdk-11 ./gradlew :Descent2:assembleDebug`
+
+The required SDK components are pinned in `Descent2/build.gradle` and can be installed with `sdkmanager`:
+
+    sdkmanager "platforms;android-31" "build-tools;31.0.0" "ndk;21.4.7075529" "cmake;3.18.1"
+
+`assembleDebug` produces one APK per ABI (`armeabi-v7a`, `arm64-v8a`, `x86`, `x86_64`) in `Descent2/build/outputs/apk/debug` — there is no universal APK. Release builds are unsigned; no signing config is checked in.
 
 Issues and Limitations
 ----------------------
