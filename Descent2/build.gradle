@@ -18,7 +18,16 @@ android {
 			minifyEnabled false
 			externalNativeBuild {
 				cmake {
-					CFlags.addAll(["-DNDEBUG", "-DRELEASE"])
+					// -DRELEASE is deliberately NOT defined. It switches the menu
+					// background to the "\x01scores.pcx" (hog-only) path, which fails
+					// to load here; with NDEBUG the Assert() that would have caught it
+					// is compiled out, so the game SIGSEGVs in newmenu_do4() as soon as
+					// you pick NEW GAME.
+					CFlags.addAll(["-DNDEBUG"])
+					// The original Descent 2 sources miscompile at -O1 and above:
+					// descent_main() returns immediately at startup and the game
+					// shows a black screen. Pin the release build to -O0.
+					arguments "-DCMAKE_C_FLAGS_RELWITHDEBINFO=-O0 -g -DNDEBUG"
 				}
 			}
 		}
