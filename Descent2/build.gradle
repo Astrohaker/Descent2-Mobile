@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 31
-	buildToolsVersion "31.0.0"
+	namespace "tuchsen.descent2"
+	compileSdk 36
 	ndkVersion "21.4.7075529"
 	defaultConfig {
-		minSdkVersion 10
-		targetSdkVersion 31
+		minSdk 16
+		targetSdk 31
 		externalNativeBuild {
 			cmake {
 				cFlags "-DANDROID_NDK", "-DDISABLE_IMPORTGL", "-DOGLES", "-DNASM", "-DNETWORK"
@@ -23,7 +23,7 @@ android {
 					// to load here; with NDEBUG the Assert() that would have caught it
 					// is compiled out, so the game SIGSEGVs in newmenu_do4() as soon as
 					// you pick NEW GAME.
-					CFlags.addAll(["-DNDEBUG"])
+					cFlags.addAll(["-DNDEBUG"])
 					// The original Descent 2 sources miscompile at -O1 and above:
 					// descent_main() returns immediately at startup and the game
 					// shows a black screen. Pin the release build to -O0.
@@ -38,9 +38,16 @@ android {
 			version "3.18.1"
 		}
 	}
+	lint {
+		// Raising targetSdk changes runtime behaviour (storage access etc.);
+		// keep 31 until that has been tested on device.
+		disable "ExpiredTargetSdkVersion"
+	}
 	splits {
 		abi {
 			enable true
+			reset()
+			include "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
 			universalApk false
 		}
 	}
