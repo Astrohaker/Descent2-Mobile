@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "game.h"
+#include "gamefont.h"
 #include "key.h"
 #include "timer.h"
 
@@ -49,6 +50,7 @@ typedef struct GameButton {
 	unsigned char keys[MAX_KEYS];
 	int nKeys;
 	bool activateOnHover;
+	char *label;
 } GameButton;
 
 static GameButton buttons[NUM_BUTTONS];
@@ -140,12 +142,24 @@ void init_buttons(jint w, jint h) {
 		buttons[i].w = (int) dp_to_px(buttons[i].w);
 		buttons[i].h = (int) dp_to_px(buttons[i].h);
 	}
+	// Label the top row with the keys they stand for in the original game
+	buttons[MENU_BTN].label = "ESC";
+	buttons[TOGGLE_COCKPIT_BTN].label = "F3";
+	buttons[REAR_VIEW_BTN].label = "R";
+	buttons[HEADLIGHT_BTN].label = "H";
+	buttons[ENERGY_TRANSFER_BTN].label = "T";
+	buttons[PLACE_MARKER].label = "F4";
+	buttons[GUIDE_BOT_MENU].label = "S-F4";
+	buttons[MAP_BTN].label = "TAB";
+
 	accelerateLastTouched = 0;
 }
 
 void draw_buttons() {
-	int i;
+	int i, w, h, aw;
+	short save_fg, save_bg;
 	grs_canvas *save_canv;
+	grs_font *save_font;
 	ubyte save_pal[3];
 
 	if (Game_mode == GM_NORMAL && !In_screen) {
@@ -167,6 +181,23 @@ void draw_buttons() {
 		}
 		memcpy(gr_current_pal, save_pal, sizeof(ubyte) * 3);
 		Gr_scanline_darkening_level = GR_FADE_LEVELS;
+
+		// Draw labels centered in their buttons
+		save_font = grd_curcanv->cv_font;
+		save_fg = grd_curcanv->cv_font_fg_color;
+		save_bg = grd_curcanv->cv_font_bg_color;
+		gr_set_curfont(GAME_FONT);
+		gr_set_fontcolor(BM_XRGB(28, 28, 28), -1);
+		for (i = 0; i < NUM_BUTTONS; ++i) {
+			if (buttons[i].label != NULL) {
+				gr_get_string_size(buttons[i].label, &w, &h, &aw);
+				gr_string(buttons[i].x + (buttons[i].w - w) / 2,
+						  buttons[i].y + (buttons[i].h - h) / 2, buttons[i].label);
+			}
+		}
+		grd_curcanv->cv_font = save_font;
+		grd_curcanv->cv_font_fg_color = save_fg;
+		grd_curcanv->cv_font_bg_color = save_bg;
 		gr_set_current_canvas(save_canv);
 	}
 }
