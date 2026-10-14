@@ -19,6 +19,9 @@
 // Used in hack to guarantee whiteness in font texture
 extern ubyte gr_current_pal[256*3];
 
+// Any color but the transparent one; it is drawn white into the glyph texture
+#define GLYPH_COLOR (TRANSPARENCY_COLOR == 0 ? 255 : 0)
+
 extern ubyte *gr_bitblt_fade_table;
 extern int get_centered_x_scaled(char *s);
 extern void get_char_width(unsigned int c,unsigned int c2,int *width,int *spacing);
@@ -83,7 +86,7 @@ int gr_scale_string_ogles(int x, int y, fix scale_x, fix scale_y, unsigned char 
 			gr_set_current_canvas(temp_canv);
 			gr_clear_canvas(TRANSPARENCY_COLOR);
 			gr_set_curfont(save_canv->cv_font);
-			gr_set_fontcolor(255, -1);
+			gr_set_fontcolor(GLYPH_COLOR, -1);
 			temp_str[0] = *s;
 			fade_table_save = gr_bitblt_fade_table;
 			gr_bitblt_fade_table = NULL;
@@ -91,14 +94,14 @@ int gr_scale_string_ogles(int x, int y, fix scale_x, fix scale_y, unsigned char 
 			gr_bitblt_fade_table = fade_table_save;
 			gr_set_current_canvas(save_canv);
 			
-			// Save off last 3 bytes of the palette and set it to white
-			memcpy(pal_save, &gr_current_pal[765], sizeof(ubyte) * 3);
-			memset(&gr_current_pal[765], 63, 3);
+			// Save off the glyph color's palette entry and set it to white
+			memcpy(pal_save, &gr_current_pal[GLYPH_COLOR * 3], sizeof(ubyte) * 3);
+			memset(&gr_current_pal[GLYPH_COLOR * 3], 63, 3);
 			
 			ogles_bm_bind_teximage_2d(&temp_canv->cv_bitmap);
 			
-			// Restore last 3 bytes of palette
-			memcpy(&gr_current_pal[765], pal_save, sizeof(ubyte) * 3);
+			// Restore the glyph color's palette entry
+			memcpy(&gr_current_pal[GLYPH_COLOR * 3], pal_save, sizeof(ubyte) * 3);
 			
 			grd_curcanv->cv_font->ft_ogles_texes[*s - grd_curcanv->cv_font->ft_minchar] = temp_canv->cv_bitmap.bm_ogles_tex_id;
 			free(temp_canv->cv_bitmap.bm_data);

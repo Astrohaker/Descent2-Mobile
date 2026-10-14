@@ -22,8 +22,9 @@ COPYRIGHT 1993-1999 PARALLAX SOFTWARE CORPORATION.  ALL RIGHTS RESERVED.
 #include "pstypes.h"
 #include "fix.h"
 
-#define SWAP_0_255			1
-#define TRANSPARENCY_COLOR	0
+// The Mac sources swap colors 0 and 255, as the Mac data files do. The
+// supported data files are the PC ones, where 255 is the transparent color.
+#define TRANSPARENCY_COLOR	255
 
 #define GR_FADE_LEVELS 34
 #define GR_ACTUAL_FADE_LEVELS 32
