@@ -285,7 +285,9 @@ void create_main_menu(newmenu_item *m, int *menu_choice, int *callers_num_option
 	#endif
 	ADD_ITEM(TXT_QUIT,MENU_QUIT,KEY_Q);
 
-	#ifndef RELEASE
+	// The Android release build can't define RELEASE (see Descent2/build.gradle),
+	// so use NDEBUG to keep these debug items out of it, as in the original.
+	#if !defined(RELEASE) && !defined(NDEBUG)
 	if (!(Game_mode & GM_MULTI ))   {
 		//m[num_options].type=NM_TYPE_TEXT;
 		//m[num_options++].text=" Debug options:";
