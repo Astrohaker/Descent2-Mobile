@@ -40,7 +40,7 @@ int hmp_play(hmp_file *hmp, bool loop) {
 	free(midbuf);
 	(*jvm)->GetEnv(jvm, (void**)&env, JNI_VERSION_1_6);
 	jpath = (*env)->NewStringUTF(env, path);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "playMidi", "(Ljava/lang/String;Z)V");
 	(*env)->CallVoidMethod(env, Activity, method, jpath, loop);
 	(*env)->DeleteLocalRef(env, clazz);

@@ -17,7 +17,7 @@ int textIsActive() {
 	jboolean retval;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentView");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentView");
 	method = (*env)->GetMethodID(env, clazz, "textIsActive", "()Z");
 	retval = (*env)->CallBooleanMethod(env, Descent_view, method);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -30,7 +30,7 @@ void activateText() {
 	jmethodID method;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentView");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentView");
 	method = (*env)->GetMethodID(env, clazz, "activateText", "()V");
 	(*env)->CallVoidMethod(env, Descent_view, method);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -42,13 +42,13 @@ void deactivateText() {
 	jmethodID method;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentView");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentView");
 	method = (*env)->GetMethodID(env, clazz, "deactivateText", "()V");
 	(*env)->CallVoidMethod(env, Descent_view, method);
 	(*env)->DeleteLocalRef(env, clazz);
 }
 
 JNIEXPORT void JNICALL
-Java_tuchsen_descent2_DescentView_keyHandler(JNIEnv *env, jclass clazz, jchar key, jboolean down) {
+Java_astrohacker_descent2_DescentView_keyHandler(JNIEnv *env, jclass clazz, jchar key, jboolean down) {
 	key_handler((unsigned char) key, down);
 }

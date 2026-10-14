@@ -16,7 +16,7 @@ void startMotion() {
 	jmethodID method;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "startMotion", "()V");
 	(*env)->CallVoidMethod(env, Activity, method);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -28,7 +28,7 @@ void stopMotion() {
 	jmethodID method;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "stopMotion", "()V");
 	(*env)->CallVoidMethod(env, Activity, method);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -42,7 +42,7 @@ void getRotationRate(double *x, double *y, double *z) {
 	jfloat *accelerationElements;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "getRotationRate", "()[F");
 	acceleration = (*env)->CallObjectMethod(env, Activity, method);
 	accelerationElements = (*env)->GetFloatArrayElements(env, acceleration, 0);
@@ -61,7 +61,7 @@ int haveGyroscope() {
 	jboolean gyroscope;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "haveGyroscope", "()Z");
 	gyroscope = (*env)->CallBooleanMethod(env, Activity, method);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -69,6 +69,6 @@ int haveGyroscope() {
 }
 
 JNIEXPORT jboolean JNICALL
-Java_tuchsen_descent2_DescentActivity_getUseGyroscope(JNIEnv *env, jclass clazz) {
+Java_astrohacker_descent2_DescentActivity_getUseGyroscope(JNIEnv *env, jclass clazz) {
 	return Config_use_gyroscope;
 }

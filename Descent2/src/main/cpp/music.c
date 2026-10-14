@@ -14,7 +14,7 @@ long getRedbookTrackCount() {
 	jint result;
 
 	(*jvm)->GetEnv(jvm, (void**)&env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "getRedbookTrackCount", "()I");
 	result = (*env)->CallIntMethod(env, Activity, method);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -27,7 +27,7 @@ void setMusicVolume(float volume) {
 	jmethodID method;
 
 	(*jvm)->GetEnv(jvm, (void**)&env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "setMusicVolume", "(F)V");
 	(*env)->CallVoidMethod(env, Activity, method, volume);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -40,7 +40,7 @@ int playRedbookTrack(int tracknum, int loop) {
 	jboolean result;
 
 	(*jvm)->GetEnv(jvm, (void**)&env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "playRedbookTrack", "(IZ)Z");
 	result = (*env)->CallBooleanMethod(env, Activity, method, tracknum, loop);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -53,7 +53,7 @@ void stopMusic(){
 	jmethodID method;
 
 	(*jvm)->GetEnv(jvm, (void**)&env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, "stopMusic", "()V");
 	(*env)->CallVoidMethod(env, Activity, method);
 	(*env)->DeleteLocalRef(env, clazz);

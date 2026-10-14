@@ -72,7 +72,7 @@ jfloat pt_conv(const char *method_name, jfloat arg) {
 	jfloat retval;
 
 	(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-	clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentActivity");
+	clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentActivity");
 	method = (*env)->GetMethodID(env, clazz, method_name, "(F)F");
 	retval = (*env)->CallFloatMethod(env, Activity, method, arg);
 	(*env)->DeleteLocalRef(env, clazz);
@@ -343,7 +343,7 @@ void handle_move(jint pointerId, jfloat x, jfloat y, jfloat prevX, jfloat prevY)
 }
 
 JNIEXPORT jboolean JNICALL
-Java_tuchsen_descent2_DescentView_touchHandler(JNIEnv *env, jclass clazz, jint action, jint pointer_id, jfloat x,
+Java_astrohacker_descent2_DescentView_touchHandler(JNIEnv *env, jclass clazz, jint action, jint pointer_id, jfloat x,
 											   jfloat y, jfloat prev_x, jfloat prev_y) {
 	if (Game_mode == GM_NORMAL && !In_screen) {
 		switch (action) {

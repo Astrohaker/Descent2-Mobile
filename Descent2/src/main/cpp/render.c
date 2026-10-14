@@ -46,7 +46,7 @@ void showRenderBuffer() {
 		digi_close_digi();
 
 		(*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_6);
-		clazz = (*env)->FindClass(env, "tuchsen/descent2/DescentView");
+		clazz = (*env)->FindClass(env, "astrohacker/descent2/DescentView");
 
 		// Pause this thread
 		method = (*env)->GetMethodID(env, clazz, "pauseRenderThread", "()V");
@@ -103,6 +103,6 @@ void showRenderBuffer() {
 }
 
 JNIEXPORT void JNICALL
-Java_tuchsen_descent2_DescentView_surfaceWasDestroyed(JNIEnv *env, jclass clazz) {
+Java_astrohacker_descent2_DescentView_surfaceWasDestroyed(JNIEnv *env, jclass clazz) {
 	Surface_was_destroyed = true;
 }
