@@ -90,6 +90,14 @@ public class DescentActivity extends Activity implements SensorEventListener {
 	}
 
 	@Override
+	public void onBackPressed() {
+		// Don't let Back finish the activity: Descent would keep running in this
+		// process and could not be started again. Treat it as Escape instead;
+		// the game is left through its own Quit menu item.
+		descentView.sendEscape();
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		descentPause();

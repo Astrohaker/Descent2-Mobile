@@ -1,5 +1,6 @@
 package tuchsen.descent2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Point;
@@ -139,11 +140,18 @@ public class DescentView extends SurfaceView implements KeyEvent.Callback, Surfa
 	@Override
 	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && textActive) {
-			keyHandler((char) 0x01, true);
-			keyHandler((char) 0x01, false);
+			sendEscape();
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Sends an Escape key press to Descent
+	 */
+	public void sendEscape() {
+		keyHandler((char) 0x01, true);
+		keyHandler((char) 0x01, false);
 	}
 
 	@Override
@@ -169,6 +177,22 @@ public class DescentView extends SurfaceView implements KeyEvent.Callback, Surfa
 					descentMain(size.x, size.y, context, thiz, context.getAssets(),
 							context.getFilesDir().getAbsolutePath(),
 							context.getCacheDir().getAbsolutePath());
+
+					// The player chose Quit. Descent keeps its state in native globals
+					// and cannot be restarted in this process, so close the activity
+					// and end the process to free everything.
+					mainHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							Activity activity = (Activity) context;
+							if (Build.VERSION.SDK_INT >= 21) {
+								activity.finishAndRemoveTask();
+							} else {
+								activity.finish();
+							}
+							System.exit(0);
+						}
+					});
 				}
 			}).start();
 			descentRunning = true;
