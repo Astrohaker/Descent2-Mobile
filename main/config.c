@@ -54,7 +54,7 @@ ubyte Config_redbook_volume = 8;
 ubyte Config_control_type = 0;
 ubyte Config_channels_reversed = 0;
 ubyte Config_joystick_sensitivity = 8;
-ubyte Config_use_gyroscope = 1;
+ubyte Config_use_gyroscope = 0;
 
 static char *digi_dev8_str = "DigiDeviceID8";
 static char *digi_dev16_str = "DigiDeviceID16";

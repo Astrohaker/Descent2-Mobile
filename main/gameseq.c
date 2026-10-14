@@ -743,7 +743,11 @@ RegisterPlayer()
 		// Set default config options in case there is no config file
 		// kc_keyboard, kc_joystick, kc_mouse are statically defined.
 		Config_joystick_sensitivity = 8;
+#ifdef ANDROID_NDK
+		Config_control_type =CONTROL_MOUSE;
+#else
 		Config_control_type =CONTROL_NONE;
+#endif
 		for (i=0; i<CONTROL_MAX_TYPES; i++ )
 			for (j=0; j<MAX_CONTROLS; j++ )
 				kconfig_settings[i][j] = default_kconfig_settings[i][j];

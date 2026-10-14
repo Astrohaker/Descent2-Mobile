@@ -150,6 +150,8 @@ RetrySelection:
 			else if (Config_control_type == CONTROL_MOUSE) control_choice = 1;
 			else if (Config_control_type == CONTROL_WINJOYSTICK) control_choice = 2;
 			else control_choice = 0;
+		#elif defined(ANDROID_NDK)
+			control_choice = CONTROL_MOUSE;					// Taps come in as mouse clicks
 		#else
 			control_choice = Config_control_type;				// Assume keyboard
 		#endif
