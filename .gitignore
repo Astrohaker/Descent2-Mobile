@@ -161,3 +161,8 @@ lint/tmp/
 *.[iI][mM][yY]
 *.[oO][gG][gG]
 
+
+# Release APKs built from Android Studio and signing keys
+Descent2/release/
+*.jks
+*.keystore

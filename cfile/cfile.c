@@ -60,6 +60,7 @@ char AltHogdir_initialized = 0;
 #ifdef ANDROID_NDK
 AAssetManager* Asset_manager;
 const char *Cache_path;
+const char *Data_path;
 #else
 const char *Resource_path;
 #endif
@@ -114,6 +115,26 @@ int android_close(void* cookie) {
 	AAsset_close((AAsset*)cookie);
 	return 0;
 }
+
+// Opens a game data file. Looks in the folder the player's data files were
+// copied to first, then in the APK's assets (debug builds bundle them there).
+FILE *android_fopen(const char *filename, const char *mode)
+{
+	char path[PATH_MAX];
+	FILE *fp;
+	AAsset *asset;
+
+	if (Data_path && *Data_path) {
+		snprintf(path, sizeof(path), "%s/%s", Data_path, filename);
+		fp = fopen(path, mode);
+		if (fp)
+			return fp;
+	}
+	asset = AAssetManager_open(Asset_manager, filename, AASSET_MODE_RANDOM);
+	if (!asset)
+		return NULL;
+	return funopen(asset, android_read, android_write, android_seek, android_close);
+}
 #endif
 
 //in case no one installs one
@@ -136,12 +157,7 @@ FILE * cfile_get_filehandle( char * filename, char * mode )
 
 	*critical_error_counter_ptr = 0;
 #ifdef ANDROID_NDK
-	AAsset* asset = AAssetManager_open(Asset_manager, filename, AASSET_MODE_RANDOM);
-	if (!asset) {
-		fp = NULL;
-	} else {
-		fp = funopen(asset, android_read, android_write, android_seek, android_close);
-	}
+	fp = android_fopen(filename, mode);
 #else
 	sprintf(temp, "%s/%s", Resource_path, filename);
 	fp = fopen( temp, mode );

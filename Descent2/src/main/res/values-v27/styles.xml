@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="DescentStyle" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+    <style name="DescentStyle" parent="@android:style/Theme.Holo.NoActionBar.Fullscreen">
         <item name="android:windowLayoutInDisplayCutoutMode">
             shortEdges
         </item>

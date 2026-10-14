@@ -13,9 +13,25 @@ android {
 			}
 		}
 	}
+	signingConfigs {
+		// The release key stays out of the repository. Put its location and
+		// passwords in ~/.gradle/gradle.properties; without them the release
+		// APK is left unsigned.
+		if (project.hasProperty("DESCENT2_STORE_FILE")) {
+			release {
+				storeFile file(project.property("DESCENT2_STORE_FILE"))
+				storePassword project.property("DESCENT2_STORE_PASSWORD")
+				keyAlias project.property("DESCENT2_KEY_ALIAS")
+				keyPassword project.property("DESCENT2_KEY_PASSWORD")
+			}
+		}
+	}
 	buildTypes {
 		release {
 			minifyEnabled false
+			if (project.hasProperty("DESCENT2_STORE_FILE")) {
+				signingConfig signingConfigs.release
+			}
 			externalNativeBuild {
 				cmake {
 					// -DRELEASE is deliberately NOT defined. It switches the menu

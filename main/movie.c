@@ -905,13 +905,9 @@ movielib *init_movie_lib(char *filename)
 
 	strlwr(filename);
 #ifdef ANDROID_NDK
-	AAsset* asset = AAssetManager_open(Asset_manager, filename, AASSET_MODE_BUFFER);
-	if (!asset) {
-		fp = NULL;
-	} else {
-		fp = funopen(asset, android_read, android_write, android_seek, android_close);
+	fp = android_fopen(filename, "rb");
+	if (fp)
 		strncpy(path, filename, PATH_MAX);
-	}
 #else
 	sprintf(path, "%s/%s", Resource_path, filename);
 	fp = fopen( path, "rb" );
@@ -1133,12 +1129,7 @@ FILE* search_movie_lib(movielib *lib,char *filename,int must_have)
 			do {		//keep trying until we get the file handle
 
 #ifdef ANDROID_NDK
-				AAsset* asset = AAssetManager_open(Asset_manager, lib->name, AASSET_MODE_BUFFER);
-				if (!asset) {
-					movie_handle = filehandle = NULL;
-				} else {
-					movie_handle = filehandle = funopen(asset, android_read, android_write, android_seek, android_close);
-				}
+				movie_handle = filehandle = android_fopen(lib->name, "rb");
 #else
 				movie_handle = filehandle = fopen(lib->name, "rb");
 #endif

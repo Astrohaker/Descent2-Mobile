@@ -176,7 +176,8 @@ public class DescentView extends SurfaceView implements KeyEvent.Callback, Surfa
 					// Prepare for Descent...
 					descentMain(size.x, size.y, context, thiz, context.getAssets(),
 							context.getFilesDir().getAbsolutePath(),
-							context.getCacheDir().getAbsolutePath());
+							context.getCacheDir().getAbsolutePath(),
+							((DescentActivity) context).getDataPath());
 
 					// The player chose Quit. Descent keeps its state in native globals
 					// and cannot be restarted in this process, so close the activity
@@ -301,5 +302,5 @@ public class DescentView extends SurfaceView implements KeyEvent.Callback, Surfa
 	private static native void descentMain(int w, int h, Context activity,
 										   DescentView descentView,
 										   AssetManager assetManager, String documentPath,
-										   String cachePath);
+										   String cachePath, String dataPath);
 }

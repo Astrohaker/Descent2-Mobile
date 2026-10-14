@@ -32,6 +32,9 @@ typedef struct CFILE {
 
 extern AAssetManager *Asset_manager;
 extern const char *Cache_path;
+extern const char *Data_path;
+
+FILE *android_fopen(const char *filename, const char *mode);
 #else
 extern const char *Resource_path;
 #endif

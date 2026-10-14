@@ -18,7 +18,8 @@ extern void init_buttons(jint w, jint h);
 JNIEXPORT void JNICALL
 Java_astrohacker_descent2_DescentView_descentMain(JNIEnv *env, jclass thiz, jint w, jint h,
 											  jobject activity, jobject descent_view, jobject asset_manager,
-											  jstring document_path, jstring cache_path) {
+											  jstring document_path, jstring cache_path,
+											  jstring data_path) {
 	char ws[6], hs[6];
 
 	// Init globals
@@ -35,6 +36,7 @@ Java_astrohacker_descent2_DescentView_descentMain(JNIEnv *env, jclass thiz, jint
 	Asset_manager = AAssetManager_fromJava(env, asset_manager);
 	Document_path = (*env)->GetStringUTFChars(env, document_path, NULL);
 	Cache_path = (*env)->GetStringUTFChars(env, cache_path, NULL);
+	Data_path = (*env)->GetStringUTFChars(env, data_path, NULL);
 
 	// Start Descent with the magical hacked command line args!
 	sprintf(ws, "%d", (int) w);
